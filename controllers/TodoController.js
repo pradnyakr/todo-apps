@@ -7,9 +7,9 @@ class TodoController {
                 ['id', 'ASC']
             ]
         })
-            .then(todos => {
-                // res.json(todos)
-                res.render('todo.ejs', { todos })
+            .then(result => {
+                res.json(result)
+                // res.render('todo.ejs', { todos })
             })
             .catch(err => {
                 res.json(err)
@@ -41,12 +41,14 @@ class TodoController {
             task, status
         })
             .then(result => {
-                res.redirect('/todos')
+                // res.redirect('/todos')
+                res.json(result)
             })
             .catch(err => {
                 res.json(err)
             })
     }
+    
     static updatePage(req, res) {
         const id = +req.params.id
 
@@ -69,7 +71,10 @@ class TodoController {
         })
             .then(result => {
                 if (result[0] === 1)
-                res.redirect('/todos')
+                // res.redirect('/todos')
+                res.json({
+                    message: `Id ${id} has been updated!`
+                })
                 else
                     res.json({
                         message: `Id ${id} has not been updated!`
@@ -88,7 +93,10 @@ class TodoController {
         })
             .then(result => {
                 if (result === 1)
-                res.redirect('/todos')
+                // res.redirect('/todos')
+                res.json({
+                    message: `id ${id} has been deleted!`
+                })
                 else
                     res.json({
                         message: `Id ${id} has not been deleted!`
