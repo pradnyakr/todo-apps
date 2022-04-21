@@ -1,15 +1,15 @@
-const { todos } = require('../models')
+const { books } = require('../models')
 
-class TodoController {
+class BookController {
     static getTodos(req, res) {
-        todos.findAll({
+        books.findAll({
             order: [
                 ['id', 'ASC']
             ]
         })
-            .then(todos => {
-                // res.json(todos)
-                res.render('todo.ejs', { todos })
+            .then(result => {
+                res.json(result)
+                // res.render('book.ejs', { books })
             })
             .catch(err => {
                 res.json(err)
@@ -18,10 +18,10 @@ class TodoController {
 
     static findById(req, res) {
         const id = Number(req.params.id);
-        todos
+        books
           .findByPk(id)
           .then((result) => {
-            if (result) res.render("todoDetail.ejs", { todos: result });
+            if (result) res.render("todoDetail.ejs", { books: result });
             // res.json(result)
             else
               res.json({
@@ -32,44 +32,36 @@ class TodoController {
             res.json(err);
           });
       }
-    static createPage(req, res) {
-        res.render('todoCreate.ejs')
-    }
+      
     static create(req, res) {
-        const { task, status } = req.body
-        todos.create({
-            task, status
+        const { title, author, released_date, pages, genre } = req.body
+        books.create({
+            title, author, released_date, pages, genre
         })
             .then(result => {
-                res.redirect('/todos')
+                // res.redirect('/books')
+                res.json(result)
             })
             .catch(err => {
                 res.json(err)
             })
     }
-    static updatePage(req, res) {
-        const id = +req.params.id
-
-        todos.findByPk(id)
-            .then(result => {
-                res.render('todoUpdate.ejs', { todos: result })
-            })
-            .catch(err => {
-                res.json(err)
-            })
-    }
+    
     static update(req, res) {
-        const { task, status } = req.body
+        const { title, author, released_date, pages, genre } = req.body
         const id = +req.params.id
 
-        todos.update({
-            task, status
+        books.update({
+            title, author, released_date, pages, genre
         }, {
             where: { id }
         })
             .then(result => {
                 if (result[0] === 1)
-                res.redirect('/todos')
+                // res.redirect('/books')
+                res.json({
+                    message: `Id ${id} has been updated!`
+                })
                 else
                     res.json({
                         message: `Id ${id} has not been updated!`
@@ -83,12 +75,15 @@ class TodoController {
     static delete(req, res) {
         const id = +req.params.id
 
-        todos.destroy({
+        books.destroy({
             where: { id }
         })
             .then(result => {
                 if (result === 1)
-                res.redirect('/todos')
+                // res.redirect('/books')
+                res.json({
+                    message: `id ${id} has been deleted!`
+                })
                 else
                     res.json({
                         message: `Id ${id} has not been deleted!`
@@ -100,4 +95,4 @@ class TodoController {
     }
 }
 
-module.exports = TodoController
+module.exports = BookController

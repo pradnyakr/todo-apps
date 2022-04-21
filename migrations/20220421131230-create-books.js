@@ -1,18 +1,27 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('todos', {
+    await queryInterface.createTable('books', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      task: {
+      title: {
         type: Sequelize.STRING
       },
-      status: {
-        type: Sequelize.BOOLEAN
+      author: {
+        type: Sequelize.STRING
+      },
+      released_date: {
+        type: Sequelize.DATE
+      },
+      pages: {
+        type: Sequelize.INTEGER
+      },
+      genre: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -25,6 +34,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('todos');
+    await queryInterface.dropTable('books');
   }
 };

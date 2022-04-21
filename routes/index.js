@@ -7,8 +7,8 @@ route.get('/', (req, res) => {
     // })
 })
 
-const todoRoutes = require('./todo')
+const todoRoutes = require('./book')
 
-route.use('/todos', todoRoutes)
+route.use('/books', todoRoutes)
 
 module.exports = route
